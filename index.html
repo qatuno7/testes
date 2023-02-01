@@ -45,26 +45,30 @@
   <script>
     const form = document.querySelector("form");
     const definitionDiv = document.querySelector("#definition");
-    let entries;
     let wordToDefinition = {};
     let definitionToWord = {};
 
-    fetch("dictionary.txt")
-      .then(response => response.text())
-      .then(data => {
-        entries = data.split("\n");
-        entries.forEach(entry => {
-          const parts = entry.split(":");
-          const word = parts[0];
-          const definition = parts[1];
-          wordToDefinition[word] = definition;
-          definitionToWord[definition] = word;
+    function loadDictionary(fileName) {
+      fetch(fileName)
+        .then(response => response.text())
+        .then(data => {
+          const entries = data.split("\n");
+          entries.forEach(entry => {
+            const parts = entry.split(":");
+            const word = parts[0];
+            const definition = parts[1];
+            wordToDefinition[word] = definition;
+            definitionToWord[definition] = word;
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching dictionary data:", error);
+          definitionDiv.innerHTML = "Error fetching dictionary data.";
         });
-      })
-      .catch(error => {
-        console.error("Error fetching dictionary data:", error);
-        definitionDiv.innerHTML = "Error fetching dictionary data.";
-      });
+    }
+
+    loadDictionary("dictionary1.txt");
+    loadDictionary("dictionary2.txt");
 
     form.addEventListener("submit", function(event) {
       event.preventDefault();
