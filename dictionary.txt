@@ -3,3 +3,4 @@ banana:A long, curved fruit with a yellow skin and a sweet, creamy interior.
 cherry:A small, round fruit with a bright red skin and a sweet, juicy interior.
 dog:A domesticated carnivorous mammal, Canis lupus familiaris, bred in many varieties.
 elephant:A large gray mammal with a trunk, two tusks, and two ears shaped like large fans.
+nakno:Deine dämliche Mutter
