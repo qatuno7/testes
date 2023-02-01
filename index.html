@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple Dictionary</title>
+    <title>Dictionary</title>
   </head>
   <body>
-    <h1>Simple Dictionary</h1>
     <form>
-      <label for="word">Enter a word:</label>
-      <input type="text" id="word" name="word">
-      <input type="submit" value="Submit">
+      <input type="text" name="word" placeholder="Enter a word">
+      <button type="submit">Search</button>
     </form>
-    <div id="definition"></div>
-    
+    <div id="definition">Enter a word to see its definition.</div>
     <script>
-  const form = document.querySelector("form");
-  const definitionDiv = document.querySelector("#definition");
+      const form = document.querySelector("form");
+      const definitionDiv = document.querySelector("#definition");
 
-  form.addEventListener("submit", function(event) {
-    event.preventDefault();
+      form.addEventListener("submit", function(event) {
+        event.preventDefault();
 
-    const word = form.elements.word.value;
+        const word = form.elements.word.value;
 
-    fetch("dictionary.json")
-      .then(response => response.json())
-      .then(data => {
-        const definition = data[word];
-        definitionDiv.innerHTML = definition || "Word not found.";
-      })
-      .catch(error => {
-        console.error("Error fetching dictionary data:", error);
-        definitionDiv.innerHTML = "Error fetching dictionary data.";
+        fetch("dictionary.json")
+          .then(response => response.json())
+          .then(data => {
+            const definition = data[word];
+            definitionDiv.innerHTML = definition || "Word not found.";
+          })
+          .catch(error => {
+            console.error("Error fetching dictionary data:", error);
+            definitionDiv.innerHTML = "Error fetching dictionary data.";
+          });
       });
-  });
-</script>
+    </script>
   </body>
 </html>
