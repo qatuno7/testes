@@ -1,44 +1,77 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Dictionary</title>
-  </head>
-  <body>
-    <form>
-      <input type="text" name="word" placeholder="Enter a word">
-      <button type="submit">Search</button>
-    </form>
-    <div id="definition">Enter a word to see its definition.</div>
-    <script>
-      const form = document.querySelector("form");
-      const definitionDiv = document.querySelector("#definition");
-      let entries;
+<head>
+  <meta charset="UTF-8">
+  <title>Dictionary</title>
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
 
-      fetch("dictionary.txt")
-        .then(response => response.text())
-        .then(data => {
-          entries = data.split("\n");
-          entries = entries.reduce((dictionary, entry) => {
-            const parts = entry.split(":");
-            const word = parts[0];
-            const definition = parts[1];
-            dictionary[word] = definition;
-            return dictionary;
-          }, {});
-        })
-        .catch(error => {
-          console.error("Error fetching dictionary data:", error);
-          definitionDiv.innerHTML = "Error fetching dictionary data.";
-        });
+    input[type="text"] {
+      width: 200px;
+      height: 30px;
+      font-size: 18px;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
 
-      form.addEventListener("submit", function(event) {
-        event.preventDefault();
+    input[type="submit"] {
+      width: 100px;
+      height: 40px;
+      background-color: blue;
+      color: white;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+    }
 
-        const word = form.elements.word.value;
-        const definition = entries[word];
+    #definition {
+      font-size: 20px;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <form>
+    <input type="text" name="word" placeholder="Enter a word">
+    <input type="submit" value="Look up">
+  </form>
+  <div id="definition"></div>
+  <script>
+    const form = document.querySelector("form");
+    const definitionDiv = document.querySelector("#definition");
+    let entries;
 
-        definitionDiv.innerHTML = definition || "Word not found.";
+    fetch("dictionary.txt")
+      .then(response => response.text())
+      .then(data => {
+        entries = data.split("\n");
+        entries = entries.reduce((dictionary, entry) => {
+          const parts = entry.split(":");
+          const word = parts[0];
+          const definition = parts[1];
+          dictionary[word] = definition;
+          return dictionary;
+        }, {});
+      })
+      .catch(error => {
+        console.error("Error fetching dictionary data:", error);
+        definitionDiv.innerHTML = "Error fetching dictionary data.";
       });
-    </script>
-  </body>
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const word = form.elements.word.value;
+      const definition = entries[word];
+
+      definitionDiv.innerHTML = definition || "Word not found.";
+    });
+  </script>
+</body>
 </html>
